@@ -262,10 +262,9 @@ public:
 int main() {
     ChatSystem chatSystem;
 
-    // Register users
-    string username, password;
-
     cout << "Welcome to ChatSystem!" << endl;
+
+    string username, password;
 
     // Registration for user 1
     cout << "Registration for User 1:" << endl;
@@ -319,13 +318,20 @@ int main() {
         // Send message from user 1 to user 2
         cout << "User 1, enter your message to User 2: ";
         getline(cin, message);
-        cout << chatSystem.sendMessage("Alice", "Bob", message) << endl;
+        cout << "Enter recipient's username: ";
+        string recipient;
+        getline(cin, recipient);
+        cout << chatSystem.sendMessage(username, recipient, message) << endl;
 
         // Send message from user 2 to user 1
         cout << "User 2, enter your message to User 1: ";
         getline(cin, message);
-        cout << chatSystem.sendMessage("Bob", "Alice", message) << endl;
+       cout << "Enter recipient's username: ";
+        getline(cin, recipient);
+        cout << chatSystem.sendMessage(username, recipient, message) << endl;
     }
 
     return 0;
 }
+
+
