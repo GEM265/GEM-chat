@@ -10,12 +10,19 @@
     max-width: 300px;
     overflow-y: auto;
     height: 200px;
+    display: inline-block;
+    vertical-align:bottom;
 }
 
 .message-input {
-    padding-top: 10px;
+    padding-top: 100px;
+    
 }
 
 .message-input input[type="text"] {
     width: calc(100% - 10px);
+}
+
+h2{
+    text-align: center;
 }
