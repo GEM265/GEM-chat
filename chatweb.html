@@ -8,7 +8,91 @@
 </head>
 <body>
     <h1>Welcome to ChatSystem</h1>
-    <script>src="https://code.jquery.com/jquery-3.6.0.min.js"</script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="chatweb.js"></script>
+    <div id="registration">
+        <h2>Registration</h2>
+        <input type="text" id="username" placeholder="Username">
+        <button onclick="registerUser()">Register</button>
+        <p id="registrationMessage"></p>
+    </div>
+
+    <div id="messaging">
+        <h2>Messaging</h2>
+        <input type="text" id="sender" placeholder="Sender">
+        <input type="text" id="recipient" placeholder="Recipient">
+        <input type="text" id="message" placeholder="Message">
+        <button onclick="sendMessage()">Send Message</button>
+        <p id="messageStatus"></p>
+    </div>
+
+    <div id="messageHistory">
+        <h2>Message History</h2>
+        <textarea id="messageDisplay" rows="10" cols="50" readonly></textarea>
+    </div>
+
+    <script>
+        class ChatSystem {
+            constructor() {
+                this.users = new Map(); // Map to store users
+                this.messages = []; // Array to store messages
+            }
+
+            registerUser(username) {
+                if (this.users.has(username)) {
+                    return `${username} already exists. Please choose another username.`;
+                }
+                this.users.set(username, []);
+                return `${username} registered successfully.`;
+            }
+
+            sendMessage(sender, recipient, message) {
+                if (!this.users.has(sender) || !this.users.has(recipient)) {
+                    return "Sender or recipient does not exist.";
+                }
+                const timestamp = new Date().toLocaleString();
+                const newMessage = { sender, recipient, message, timestamp };
+                this.messages.push(newMessage);
+                this.users.get(recipient).push(newMessage);
+                return "Message sent successfully.";
+            }
+
+            getMessagesForUser(username) {
+                if (!this.users.has(username)) {
+                    return "User does not exist.";
+                }
+                return this.users.get(username);
+            }
+        }
+
+        const chatSystem = new ChatSystem();
+
+        function registerUser() {
+            const username = document.getElementById("username").value;
+            const registrationMessage = document.getElementById("registrationMessage");
+            registrationMessage.textContent = chatSystem.registerUser(username);
+        }
+
+        function sendMessage() {
+            const sender = document.getElementById("sender").value;
+            const recipient = document.getElementById("recipient").value;
+            const message = document.getElementById("message").value;
+            const messageStatus = document.getElementById("messageStatus");
+            messageStatus.textContent = chatSystem.sendMessage(sender, recipient, message);
+            updateMessageHistory();
+        }
+
+        function updateMessageHistory() {
+            const messageDisplay = document.getElementById("messageDisplay");
+            messageDisplay.value = ""; // Clear existing content
+            chatSystem.messages.forEach(message => {
+                messageDisplay.value += `${message.sender} -> ${message.recipient}: ${message.message} (${message.timestamp})\n`;
+            });
+        }
+    </script>
 </body>
 </html>
+
+
+
+
