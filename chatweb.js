@@ -16,8 +16,8 @@ let user1, user2;
             document.getElementById("user1MessageInput").placeholder = `${user1}: Type your message`;
             document.getElementById("user2MessageInput").placeholder = `${user2}: Type your message`;
 
-            displayMessage(user1, `Chat started between ${user1} and ${user2}.`);
-            displayMessage(user2, `Chat started between ${user1} and ${user2}.`);
+            displayMessage('user1', `Chat started between ${user1} and ${user2}.`);
+            displayMessage('user2', `Chat started between ${user1} and ${user2}.`);
 
             document.getElementById("user1MessageInput").focus();
         }

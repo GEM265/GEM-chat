@@ -1,3 +1,8 @@
+.message-container {
+    display: inline-block;
+    vertical-align: top;
+}
+
 .message-box {
     border: 1px solid #ccc;
     padding: 10px;
@@ -5,4 +10,12 @@
     max-width: 300px;
     overflow-y: auto;
     height: 200px;
+}
+
+.message-input {
+    padding-top: 10px;
+}
+
+.message-input input[type="text"] {
+    width: calc(100% - 10px);
 }
