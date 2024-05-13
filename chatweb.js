@@ -1,49 +1,42 @@
-class ChatSystem {
-    constructor() {
-        this.users = new Map(); // Map to store users
-        this.messages = []; // Array to store messages
-    }
+let user1, user2;
 
-    registerUser(username) {
-        if (this.users.has(username)) {
-            return `${username} already exists. Please choose another username.`;
+        function startChat() {
+            user1 = document.getElementById("user1").value.trim();
+            user2 = document.getElementById("user2").value.trim();
+
+            if (!user1 || !user2) {
+                alert("Please enter usernames for both users.");
+                return;
+            }
+
+            document.getElementById("registration").style.display = "none";
+            document.getElementById("chat").style.display = "block";
+
+            // Update placeholders with registered usernames
+            document.getElementById("user1MessageInput").placeholder = `${user1}: Type your message`;
+            document.getElementById("user2MessageInput").placeholder = `${user2}: Type your message`;
+
+            displayMessage(user1, `Chat started between ${user1} and ${user2}.`);
+            displayMessage(user2, `Chat started between ${user1} and ${user2}.`);
+
+            document.getElementById("user1MessageInput").focus();
         }
-        this.users.set(username, []);
-        return `${username} registered successfully.`;
-    }
 
-    sendMessage(sender, recipient, message) {
-        if (!this.users.has(sender) || !this.users.has(recipient)) {
-            return "Sender or recipient does not exist.";
+        function sendMessage(sender, receiver) {
+            const messageInput = document.getElementById(`${sender}MessageInput`);
+            const message = messageInput.value.trim();
+            if (!message) return;
+
+            displayMessage(sender, `<b>${sender}: </b>${message}`);
+            displayMessage(receiver, `<b>${sender}: </b>${message}`);
+            messageInput.value = "";
+            messageInput.focus();
         }
-        const timestamp = new Date().toLocaleString();
-        const newMessage = { sender, recipient, message, timestamp };
-        this.messages.push(newMessage);
-        this.users.get(recipient).push(newMessage);
-        return "Message sent successfully.";
-    }
 
-    getMessagesForUser(username) {
-        if (!this.users.has(username)) {
-            return "User does not exist.";
+        function displayMessage(user, message) {
+            const messagesContainer = document.getElementById(`${user}Messages`);
+            const messageElement = document.createElement("div");
+            messageElement.innerHTML = message;
+            messagesContainer.appendChild(messageElement);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
-        return this.users.get(username);
-    }
-}
-
-// Example usage:
-const chatSystem = new ChatSystem();
-
-console.log(chatSystem.registerUser("Alice")); // Alice registered successfully.
-console.log(chatSystem.registerUser("Bob")); // Bob registered successfully.
-
-console.log(chatSystem.sendMessage("Alice", "Bob", "Hello Bob!")); // Message sent successfully.
-console.log(chatSystem.sendMessage("Bob", "Alice", "Hi Alice!")); // Message sent successfully.
-
-console.log(chatSystem.getMessagesForUser("Alice"));
-// Output:
-// [ { sender: 'Bob', recipient: 'Alice', message: 'Hi Alice!', timestamp: '5/13/2024, 12:00:00 PM' } ]
-
-console.log(chatSystem.getMessagesForUser("Bob"));
-// Output:
-// [ { sender: 'Alice', recipient: 'Bob', message: 'Hello Bob!', timestamp: '5/13/2024, 12:00:00 PM' } ]
